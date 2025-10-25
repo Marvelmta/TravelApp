@@ -76,7 +76,7 @@ VITE_UNSPLASH_ACCESS_KEY=<your_api_key>
 ## 📁 Project Structure 
 
 ```
-
+/src
 ├── components/
 │   ├── CountryCard.tsx
 │   ├── CountryDetail.tsx
