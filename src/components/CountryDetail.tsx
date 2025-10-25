@@ -54,11 +54,9 @@ export function CountryDetail({ countryName, onBack }: CountryDetailProps) {
       setLoading(true);
       setError(null);
 
-      // Try multiple approaches to fetch country data
       let countryResponse;
       let countryData;
       
-      // First try with fullText
       try {
         countryResponse = await fetch(
           `https://restcountries.com/v3.1/name/${encodeURIComponent(countryName)}?fullText=true`,
@@ -71,7 +69,6 @@ export function CountryDetail({ countryName, onBack }: CountryDetailProps) {
         console.log('fullText search failed, trying partial match');
       }
       
-      // If fullText fails, try without it
       if (!countryData || countryData.length === 0) {
         countryResponse = await fetch(
           `https://restcountries.com/v3.1/name/${encodeURIComponent(countryName)}`,
@@ -83,7 +80,6 @@ export function CountryDetail({ countryName, onBack }: CountryDetailProps) {
         
         countryData = await countryResponse.json();
         
-        // Find exact match
         const exactMatch = countryData.find(
           (c: Country) => c.name.common.toLowerCase() === countryName.toLowerCase()
         );
@@ -100,12 +96,10 @@ export function CountryDetail({ countryName, onBack }: CountryDetailProps) {
       const countryInfo = countryData[0];
       setCountry(countryInfo);
 
-      // Fetch weather
       if (countryInfo.capital && countryInfo.capital[0]) {
         await fetchWeatherData(countryInfo.capital[0]);
       }
 
-      // Fetch Wikipedia intro
       await fetchWikipediaIntro(countryInfo.name.common);
     } catch (err) {
       console.error('Country fetch error:', err);
@@ -136,7 +130,6 @@ export function CountryDetail({ countryName, onBack }: CountryDetailProps) {
         };
         setWeather(weatherData);
       } else {
-        // Fallback to mock data if API fails
         console.log('Weather API failed, using mock data');
         const mockWeather: WeatherData = {
           temp: Math.floor(Math.random() * 30) + 5,
@@ -156,7 +149,7 @@ export function CountryDetail({ countryName, onBack }: CountryDetailProps) {
       }
     } catch (error) {
       console.error('Weather fetch error:', error);
-      // Use mock data on error
+
       const mockWeather: WeatherData = {
         temp: Math.floor(Math.random() * 30) + 5,
         feels_like: Math.floor(Math.random() * 30) + 5,
@@ -177,33 +170,19 @@ export function CountryDetail({ countryName, onBack }: CountryDetailProps) {
 
   const fetchWikipediaIntro = async (countryName: string) => {
     try {
-      // Fetch from Wikipedia API
       const response = await fetch(
         `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(countryName)}`,
       );
-
       if (response.ok) {
         const data = await response.json();
         setWikiIntro(
-          data.extract ||
-            'Ingen information tillgänglig från Wikipedia.',
+          data.extract || 'No information available from Wikipedia.'
         );
       } else {
-        // Fallback to English Wikipedia
-        const enResponse = await fetch(
-          `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(countryName)}`,
-        );
-        if (enResponse.ok) {
-          const enData = await enResponse.json();
-          setWikiIntro(
-            enData.extract || 'Ingen information tillgänglig.',
-          );
-        }
+        setWikiIntro('Could not fetch information from Wikipedia.');
       }
     } catch (err) {
-      setWikiIntro(
-        'Could not fetch information from Wikipedia.',
-      );
+      setWikiIntro('Could not fetch information from Wikipedia.');
     }
   };
 
