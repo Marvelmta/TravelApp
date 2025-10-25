@@ -226,7 +226,6 @@ export function CountryDetail({ countryName, onBack }: CountryDetailProps) {
     ? country.timezones.join(', ')
     : 'No information';
 
-
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
       {/* Back Button */}
