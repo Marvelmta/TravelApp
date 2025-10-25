@@ -430,11 +430,10 @@ export function CountryDetail({ countryName, onBack }: CountryDetailProps) {
   );
 }
 
-// Separate component for images with Unsplash
-
 export function CountryImages({ countryName }: { countryName: string }) {
   const [images, setImages] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalIndex, setModalIndex] = useState<number | null>(null);
   const accessKey = import.meta.env.VITE_UNSPLASH_API_KEY;
@@ -443,6 +442,7 @@ export function CountryImages({ countryName }: { countryName: string }) {
 
   const loadImages = async () => {
     setLoading(true);
+    setError(null);
     try {
       if (accessKey) {
         const response = await fetch(
@@ -457,23 +457,11 @@ export function CountryImages({ countryName }: { countryName: string }) {
           }
         }
       }
-      // Fallback to placeholder images if no Unsplash images found or no key
-      const placeholderImages = [
-        `https://source.unsplash.com/800x600/?${encodeURIComponent(countryName)},landscape`,
-        `https://source.unsplash.com/800x600/?${encodeURIComponent(countryName)},city`,
-        `https://source.unsplash.com/800x600/?${encodeURIComponent(countryName)},culture`,
-        `https://source.unsplash.com/800x600/?${encodeURIComponent(countryName)},nature`,
-      ];
-      setImages(placeholderImages);
+      setImages([]);
+      setError('Images failed to load');
     } catch (err) {
-      // On error, fallback to placeholder images
-      const placeholderImages = [
-        `https://source.unsplash.com/800x600/?${encodeURIComponent(countryName)},landscape`,
-        `https://source.unsplash.com/800x600/?${encodeURIComponent(countryName)},city`,
-        `https://source.unsplash.com/800x600/?${encodeURIComponent(countryName)},culture`,
-        `https://source.unsplash.com/800x600/?${encodeURIComponent(countryName)},nature`,
-      ];
-      setImages(placeholderImages);
+      setImages([]);
+      setError('Images failed to load');
     } finally {
       setLoading(false);
     }
@@ -519,8 +507,21 @@ export function CountryImages({ countryName }: { countryName: string }) {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [modalOpen, images.length]);
 
+
   if (loading) {
     return <LoadingSpinner message="Loading images..." />;
+  }
+  if (error) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>Images from {countryName}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-red-600 text-center">{error}</p>
+        </CardContent>
+      </Card>
+    );
   }
 
   return (
