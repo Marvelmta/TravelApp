@@ -31,6 +31,7 @@ export interface Country {
     [key: string]: { name: string; symbol: string };
   };
   latlng?: [number, number];
+  timezones?: string[];
 }
 
 const ITEMS_PER_PAGE = 12;

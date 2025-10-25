@@ -21,7 +21,8 @@ import {
   Cloud,
   Thermometer,
   Droplets,
-  Wind
+  Wind,
+  Clock
 } from 'lucide-react';
 
 interface CountryDetailProps {
@@ -36,11 +37,14 @@ interface WeatherData {
   description: string;
   icon: string;
   wind_speed: number;
+  locationName?: string;
 }
+
 
 export function CountryDetail({ countryName, onBack }: CountryDetailProps) {
   const [country, setCountry] = useState<Country | null>(null);
   const [weather, setWeather] = useState<WeatherData | null>(null);
+  const [userWeather, setUserWeather] = useState<WeatherData | null>(null);
   const [wikiIntro, setWikiIntro] = useState<string>('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -113,7 +117,7 @@ export function CountryDetail({ countryName, onBack }: CountryDetailProps) {
 
   const fetchWeatherData = async (capital: string) => {
     try {
-  const apiKey = import.meta.env.VITE_OPENWEATHER_API_KEY;
+      const apiKey = import.meta.env.VITE_OPENWEATHER_API_KEY;
       const response = await fetch(
         `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(capital)}&appid=${apiKey}&units=metric&lang=en`
       );
@@ -127,44 +131,41 @@ export function CountryDetail({ countryName, onBack }: CountryDetailProps) {
           description: data.weather[0].description,
           icon: data.weather[0].icon,
           wind_speed: Math.round(data.wind.speed * 10) / 10,
+          locationName: data.name,
         };
         setWeather(weatherData);
       } else {
-        console.log('Weather API failed, using mock data');
-        const mockWeather: WeatherData = {
-          temp: Math.floor(Math.random() * 30) + 5,
-          feels_like: Math.floor(Math.random() * 30) + 5,
-          humidity: Math.floor(Math.random() * 40) + 40,
-          description: [
-            'Clear',
-            'Partly cloudy',
-            'Cloudy',
-            'Light rain',
-            'Sunny',
-          ][Math.floor(Math.random() * 5)],
-          icon: '01d',
-          wind_speed: Math.floor(Math.random() * 15) + 2,
-        };
-        setWeather(mockWeather);
+        setWeather(null);
       }
     } catch (error) {
-      console.error('Weather fetch error:', error);
+      setWeather(null);
+    }
+  };
 
-      const mockWeather: WeatherData = {
-        temp: Math.floor(Math.random() * 30) + 5,
-        feels_like: Math.floor(Math.random() * 30) + 5,
-        humidity: Math.floor(Math.random() * 40) + 40,
-        description: [
-          'Clear',
-          'Partly cloudy',
-          'Cloudy',
-          'Light rain',
-          'Sunny',
-        ][Math.floor(Math.random() * 5)],
-        icon: '01d',
-        wind_speed: Math.floor(Math.random() * 15) + 2,
-      };
-      setWeather(mockWeather);
+  // Fetch weather for user's current location
+  const fetchUserWeather = async (lat: number, lon: number) => {
+    try {
+      const apiKey = import.meta.env.VITE_OPENWEATHER_API_KEY;
+      const response = await fetch(
+        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric&lang=en`
+      );
+      if (response.ok) {
+        const data = await response.json();
+        const weatherData: WeatherData = {
+          temp: Math.round(data.main.temp),
+          feels_like: Math.round(data.main.feels_like),
+          humidity: data.main.humidity,
+          description: data.weather[0].description,
+          icon: data.weather[0].icon,
+          wind_speed: Math.round(data.wind.speed * 10) / 10,
+          locationName: data.name,
+        };
+        setUserWeather(weatherData);
+      } else {
+        setUserWeather(null);
+      }
+    } catch (error) {
+      setUserWeather(null);
     }
   };
 
@@ -221,6 +222,10 @@ export function CountryDetail({ countryName, onBack }: CountryDetailProps) {
         .join(', ')
     : 'No information';
   const subregion = country.subregion || 'No information';
+  const timezones = country.timezones && country.timezones.length > 0
+    ? country.timezones.join(', ')
+    : 'No information';
+
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
@@ -334,6 +339,16 @@ export function CountryDetail({ countryName, onBack }: CountryDetailProps) {
                   <p className="text-slate-900">{subregion}</p>
                 </div>
               </div>
+
+              <div className="flex items-start gap-3">
+                <div className="p-2 bg-orange-100 rounded-lg">
+                  <Clock className="w-5 h-5 text-orange-600" />
+                </div>
+                <div>
+                  <p className="text-slate-600">Timezone(s)</p>
+                  <p className="text-slate-900">{timezones}</p>
+                </div>
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -394,6 +409,48 @@ export function CountryDetail({ countryName, onBack }: CountryDetailProps) {
               <p className="text-slate-500 text-center mt-4">
                 * Weather data from OpenWeather API
               </p>
+
+              {/* Use my location button and user weather */}
+              <div className="mt-6">
+                <Button
+                  variant="secondary"
+                  onClick={() => {
+                    if (navigator.geolocation) {
+                      navigator.geolocation.getCurrentPosition(
+                        (pos) => fetchUserWeather(pos.coords.latitude, pos.coords.longitude),
+                        () => alert('Could not get your location.')
+                      );
+                    } else {
+                      alert('Geolocation is not supported by your browser.');
+                    }
+                  }}
+                >
+                  Use my location
+                </Button>
+                {userWeather && (
+                  <div className="mt-4 p-4 border rounded-lg bg-slate-50">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Cloud className="w-5 h-5" />
+                      <span className="font-semibold">Weather at your location{userWeather.locationName ? ` (${userWeather.locationName})` : ''}:</span>
+                    </div>
+                    <div className="flex flex-wrap gap-6">
+                      <div>
+                        <span className="text-slate-900 text-lg">{userWeather.temp}°C</span>
+                        <span className="block text-slate-600">{userWeather.description}</span>
+                      </div>
+                      <div>
+                        <span className="text-slate-900">Feels like: {userWeather.feels_like}°C</span>
+                      </div>
+                      <div>
+                        <span className="text-slate-900">Humidity: {userWeather.humidity}%</span>
+                      </div>
+                      <div>
+                        <span className="text-slate-900">Wind: {userWeather.wind_speed} m/s</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
             </CardContent>
           </Card>
         )}
