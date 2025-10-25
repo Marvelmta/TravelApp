@@ -22,7 +22,6 @@ The app lets users explore countries around the world, see the weather in the ca
 
 ---
 
-
 ## 🧩 APIs
 
 | API | Purpose | Link |
@@ -33,7 +32,6 @@ The app lets users explore countries around the world, see the weather in the ca
 | **Unsplash API** | Background images from the country | [https://unsplash.com/developers](https://unsplash.com/developers) |
 
 ---
-
 
 ## 🚀 Tech Stack
 
@@ -64,7 +62,6 @@ npm run dev
 
 ---
 
-
 ## 🔑 Environment Variables
 
 Create a `.env` file in the root of the project with the following keys:
@@ -75,8 +72,6 @@ VITE_UNSPLASH_ACCESS_KEY=<your_api_key>
 ```
 
 ---
-
-src/
 
 ## 📁 Project Structure 
 
