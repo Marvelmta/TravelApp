@@ -495,7 +495,6 @@ export function CountryImages({ countryName }: { countryName: string }) {
     });
   };
 
-  // Close modal on ESC key
   useEffect(() => {
     if (!modalOpen) return;
     const handleKeyDown = (e: KeyboardEvent) => {
