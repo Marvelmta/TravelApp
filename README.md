@@ -1,73 +1,113 @@
-# React + TypeScript + Vite
+# 🌍 Travel Explorer App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern and responsive **Travel App** built with **React** and **TypeScript**.  
+The app lets users explore countries around the world, see the weather in the capital, read short descriptions from Wikipedia, and view beautiful images from Unsplash.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Functions
 
-## React Compiler
+🔎 **Search for countries** – A search bar on the homepage to find specific countries.  
+- 🌍 **Filter by continent** – Buttons to filter between continents (Africa, Europe, Asia, etc).  
+- 📄 **Pagination** – 12 countries are shown per page.  
+- 🇨🇭 **Country detail page** – Each country page shows:
+  - Population  
+  - Capital  
+  - Currency  
+  - Language  
+  - Region  
+  - Short description from Wikipedia  
+  - Current weather in the capital (OpenWeatherMap)  
+  - Background image from Unsplash
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🧩 APIs
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+| API | Purpose | Link |
+|-----|---------|------|
+| **REST Countries** | Country information (name, capital, population, language, currency, region) | [https://restcountries.com](https://restcountries.com) |
+| **OpenWeatherMap** | Current weather in the country's capital | [https://openweathermap.org/api](https://openweathermap.org/api) |
+| **Wikipedia REST API** | Short description of the country | [https://www.mediawiki.org/wiki/API:REST_API](https://www.mediawiki.org/wiki/API:REST_API) |
+| **Unsplash API** | Background images from the country | [https://unsplash.com/developers](https://unsplash.com/developers) |
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+
+## 🚀 Tech Stack
+
+**Built with:**
+- ⚛️ React   
+- 🧠 TypeScript  
+- 🎨 Tailwind CSS
+- 🛠️ ShadCN 
+- 🌐 Fetch API for API requests  
+
+---
+
+## 📦 Installation
+
+```bash
+# Clone the project
+git clone https://github.com/<your-username>/TravelApp.git
+
+# Go into the project folder
+cd TravelApp
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🔑 Environment Variables
+
+Create a `.env` file in the root of the project with the following keys:
+
+```bash
+VITE_OPENWEATHER_API_KEY=<your_api_key>
+VITE_UNSPLASH_ACCESS_KEY=<your_api_key>
 ```
+
+---
+
+src/
+
+## 📁 Project Structure 
+
+```
+
+├── components/
+│   ├── CountryCard.tsx
+│   ├── CountryDetail.tsx
+│   ├── CountryList.tsx
+│   ├── LoadingSpinner.tsx
+│   ├── SearchBar.tsx
+│   ├── ErrorMessage.tsx
+│   └── ContinentFilter.tsx
+├── lib/
+│   ├── utils.ts
+├── styles/
+│   ├── globals.css
+├── App.tsx
+└── index.css
+└── main.tsx
+```
+---
+
+## 📸 Screenshots
+
+### Home Page
+![Home Page](/src/assets/homepage.png)
+
+### Country Page
+![Country Page](/src/assets/countrypage.png)
+
+### Country Page Details
+![Country Page Details](/src/assets/countrypage2.png)
+
