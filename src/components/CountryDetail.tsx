@@ -1,8 +1,3 @@
-// Flag override for specific countries
-const customFlags: Record<string, string> = {
-  Afghanistan: 'https://upload.wikimedia.org/wikipedia/commons/c/cd/Flag_of_Afghanistan_%282013%E2%80%932021%29.svg', 
-};
-
 import { useState, useEffect } from 'react';
 import type { Country } from './CountryList';
 import { LoadingSpinner } from './LoadingSpinner';
@@ -244,7 +239,7 @@ export function CountryDetail({ countryName, onBack }: CountryDetailProps) {
         <div className="flex flex-col md:flex-row gap-6 items-start">
           <div className="w-full md:w-48 shrink-0">
             <img
-              src={customFlags[country.name.common] || country.flags.svg}
+              src={country.flags.svg}
               alt={
                 country.flags.alt ||
                 `Flag of ${country.name.common}`

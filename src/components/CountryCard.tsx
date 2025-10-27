@@ -1,8 +1,3 @@
-// Flag override for specific countries
-const customFlags: Record<string, string> = {
-  Afghanistan: 'https://upload.wikimedia.org/wikipedia/commons/c/cd/Flag_of_Afghanistan_%282013%E2%80%932021%29.svg',
-};
-
 import { Card, CardContent } from './ui/card';
 import type { Country } from './CountryList';
 import { Users, Building2 } from 'lucide-react';
@@ -33,7 +28,7 @@ export function CountryCard({ country, onClick }: CountryCardProps) {
     >
       <div className="relative aspect-video overflow-hidden bg-linear-to-br from-slate-100 to-slate-200">
         <img
-          src={customFlags[country.name.common] || country.flags.svg}
+          src={country.flags.svg}
           alt={country.flags.alt || `Flag of ${country.name.common}`}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
           loading="lazy"

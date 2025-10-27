@@ -1,16 +1,16 @@
-# 🌍 Travel Explorer App
+# Travel Explorer App
 
 A modern and responsive **Travel App** built with **React** and **TypeScript**.  
-The app lets users explore countries around the world, see the weather in the capital, read short descriptions from Wikipedia, and view beautiful images from Unsplash.
+The app lets users explore countries around the world, see the weather in the capital, read short descriptions from Wikipedia, and view images from Unsplash.
 
 ---
 
-## ✨ Functions
+## Functions
 
 🔎 **Search for countries** – A search bar on the homepage to find specific countries.  
-- 🌍 **Filter by continent** – Buttons to filter between continents (Africa, Europe, Asia, etc).  
-- 📄 **Pagination** – 12 countries are shown per page.  
-- 🇨🇭 **Country detail page** – Each country page shows:
+- **Filter by continent** – Buttons to filter between continents (Africa, Europe, Asia, etc).  
+- **Pagination** – 12 countries per page.  
+- **Country detail page** – Each country page shows:
   - Population  
   - Capital  
   - Currency  
@@ -22,7 +22,7 @@ The app lets users explore countries around the world, see the weather in the ca
 
 ---
 
-## 🧩 APIs
+## APIs
 
 | API | Purpose | Link |
 |-----|---------|------|
@@ -33,18 +33,18 @@ The app lets users explore countries around the world, see the weather in the ca
 
 ---
 
-## 🚀 Tech Stack
+## Tech Stack
 
 **Built with:**
-- ⚛️ React   
-- 🧠 TypeScript  
-- 🎨 Tailwind CSS
-- 🛠️ ShadCN 
-- 🌐 Fetch API for API requests  
+- React   
+- TypeScript  
+- Tailwind CSS
+- ShadCN 
+- Fetch API for API requests  
 
 ---
 
-## 📦 Installation
+## Installation
 
 ```bash
 # Clone the project
@@ -62,7 +62,7 @@ npm run dev
 
 ---
 
-## 🔑 Environment Variables
+## Environment Variables
 
 Create a `.env` file in the root of the project with the following keys:
 
@@ -73,7 +73,7 @@ VITE_UNSPLASH_ACCESS_KEY=<your_api_key>
 
 ---
 
-## 📁 Project Structure 
+## Project Structure 
 
 ```
 /src
@@ -95,7 +95,7 @@ VITE_UNSPLASH_ACCESS_KEY=<your_api_key>
 ```
 ---
 
-## 📸 Screenshots
+## Screenshots
 
 ### Home Page
 ![Home Page](/src/assets/homepage.png)
