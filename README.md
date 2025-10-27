@@ -7,7 +7,7 @@ The app lets users explore countries around the world, see the weather in the ca
 
 ## Functions
 
-🔎 **Search for countries** – A search bar on the homepage to find specific countries.  
+**Search for countries** – A search bar on the homepage to find specific countries.  
 - **Filter by continent** – Buttons to filter between continents (Africa, Europe, Asia, etc).  
 - **Pagination** – 12 countries per page.  
 - **Country detail page** – Each country page shows:
