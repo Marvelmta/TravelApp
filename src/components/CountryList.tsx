@@ -56,7 +56,7 @@ export function CountryList() {
     const params = new URLSearchParams(window.location.search);
     const queryParam = params.get("query") || "";
     const regionParam =
-      params.get("region") || localStorage.getItem("selectedRegion") || "All";
+      params.get("region") || "All";
     const pageParam = parseInt(params.get("page") || "1", 10);
 
     setSearchQuery(queryParam);
