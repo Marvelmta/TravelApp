@@ -46,9 +46,7 @@ export function CountryList() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedRegion, setSelectedRegion] = useState(() => {
     const params = new URLSearchParams(window.location.search);
-    return (
-      params.get("region") || localStorage.getItem("selectedRegion") || "All"
-    );
+    return params.get("region") || "All";
   });
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -69,8 +67,7 @@ export function CountryList() {
   useEffect(() => {
     const onPopState = () => {
       const params = new URLSearchParams(window.location.search);
-      const regionParam =
-        params.get("region") || localStorage.getItem("selectedRegion") || "All";
+      const regionParam = params.get("region") || "All";
       setSelectedRegion(regionParam);
     };
     window.addEventListener("popstate", onPopState);
@@ -148,7 +145,6 @@ export function CountryList() {
 
   const handleRegionChange = (region: string) => {
     setSelectedRegion(region);
-    localStorage.setItem("selectedRegion", region);
     setCurrentPage(1);
   };
 
